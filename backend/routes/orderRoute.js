@@ -1,5 +1,5 @@
 import express from 'express'
-import { allOrders, placeOrder, placeOrderRazorpay, placeOrderStripe, updateStatus, userOrders } from '../controllers/orderController.js'
+import { allOrders, placeOrder, placeOrderRazorpay, placeOrderStripe, updateStatus, userOrders, verifyRazorpay, verifyStripe } from '../controllers/orderController.js'
 import authUser from '../middleware/auth.js';
 import adminAuth from '../middleware/adminAuth.js';
 
@@ -16,6 +16,11 @@ orderRouter.post('/razorpay', authUser, placeOrderRazorpay)
 
 // user Feature
 orderRouter.post('/userorders', authUser, userOrders)
+
+// verify payment
+orderRouter.post("/verifyStripe", authUser, verifyStripe)
+orderRouter.post("/verifyRazorpay", authUser, verifyRazorpay)
+
 
 export default orderRouter
 
