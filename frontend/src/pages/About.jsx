@@ -10,7 +10,7 @@ const About = () => {
             <Title text1={"ABOUT"} text2={"US"} />
          </div>
          <div className='my-10 flex flex-col md:flex-row gap-16'>
-            <img className='w-full md:max-w-[450px]' src={assets.about_img} alt="" />
+            <img className='w-full md:max-w-[450px]' src={assets.about} alt="" />
             <div className='flex flex-col justify-center gap-6 md:w-2/4 text-gray-600'>
                <p>Forever was born out of a passion for innovation and a desire to revolution Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione commodi doloremque beatae, minima ipsam sunt rem aut eum? Tempora, pariatur consectetur.</p>
                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, consequuntur? Quo quia sed iure. Quaerat ullam accusantium dolores eveniet deleniti distinctio harum voluptatem? Soluta magnam possimus quisquam eveniet fugiat perferendis.</p>
