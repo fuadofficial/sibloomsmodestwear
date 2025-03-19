@@ -25,3 +25,26 @@ app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
 
 app.listen(port, () => console.log("Server started on PORT : " + port))
+
+
+
+// {
+//     "version": 2,
+//     "builds": [
+//         {
+//             "src": "server.js",
+//             "use": "@vercel/node",
+//             "config": {
+//                 "includeFiles": [
+//                     "dist/**"
+//                 ]
+//             }
+//         }
+//     ],
+//     "routes": [
+//         {
+//             "src": "/(.*)",
+//             "dest": "server.js"
+//         }
+//     ]
+// }
