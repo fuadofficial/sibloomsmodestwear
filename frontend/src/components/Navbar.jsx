@@ -48,7 +48,7 @@ const Navbar = () => {
                         <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
                             <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
                                 <p className='cursor-pointer hover:text-black' >My Profile</p>
-                                <p onClick={()=>navigate("/orders")} className='cursor-pointer hover:text-black' >Orders</p>
+                                <p onClick={() => navigate("/orders")} className='cursor-pointer hover:text-black' >Orders</p>
                                 <p onClick={logout} className='cursor-pointer hover:text-black' >Logout</p>
                             </div>
                         </div>
@@ -70,8 +70,10 @@ const Navbar = () => {
                     </div>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/'>HOME</NavLink>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/collection'>COLLECTION</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/orders'>ORDERS</NavLink>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/about'>ABOUT</NavLink>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/contact'>CONTACT</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/login'>{token ? "LOGOUT" : "LOGIN"}</NavLink>
                 </div>
             </div>
         </div>
