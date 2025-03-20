@@ -41,7 +41,7 @@ const Navbar = () => {
             <div className="flex items-center gap-6">
                 <img onClick={() => setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer' alt="" />
                 <div className="group relative">
-                    <img onClick={() => token ? null : navigate("/login")} src={assets.profile_icon} className='w-5 cursor-pointer' alt="" />
+                    <img onClick={() => token ? navigate("/orders") : navigate("/login")} src={assets.profile_icon} className='w-5 cursor-pointer' alt="" />
 
                     {/* Dropdown Menu */}
                     {token &&
@@ -73,10 +73,21 @@ const Navbar = () => {
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/orders'>ORDERS</NavLink>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/about'>ABOUT</NavLink>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/contact'>CONTACT</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/login'>{token ? "LOGOUT" : "LOGIN"}</NavLink>
+                    <NavLink
+                        onClick={() => {
+                            setVisible(false);
+                            if (token) {
+                                logout(); // Call logout function when token exists (LOGOUT state)
+                            }
+                        }}
+                        className='py-2 pl-6 border'
+                        to='/login' // Redirect to home after logout, login page otherwise
+                    >
+                        {token ? "LOGOUT" : "LOGIN"}
+                    </NavLink>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
