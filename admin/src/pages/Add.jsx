@@ -21,6 +21,10 @@ const Add = ({ token }) => {
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault()
+		if (sizes.length === 0) {
+			toast.error("Please select at least one size.");
+			return;
+		}
 		try {
 			const formData = new FormData()
 			formData.append("name", name)
@@ -67,7 +71,7 @@ const Add = ({ token }) => {
 				<div className='flex gap-2'>
 					<label htmlFor="image1">
 						<img className="w-20" src={`${image1 ? URL.createObjectURL(image1) : assets.upload_area}`} alt="" />
-						<input onChange={(e) => setImage1(e.target.files[0])} type="file" id='image1' hidden />
+						<input required onChange={(e) => setImage1(e.target.files[0])} type="file" id='image1' hidden />
 					</label>
 					<label htmlFor="image2">
 						<img className="w-20" src={`${image2 ? URL.createObjectURL(image2) : assets.upload_area}`} alt="" />
@@ -95,9 +99,9 @@ const Add = ({ token }) => {
 				<div>
 					<p className='mb-2'>Product category</p>
 					<select onChange={(e) => setCategory(e.target.value)} className='w-full px-3 py-2'>
-						<option value="Men">Men</option>
 						<option value="Women">Women</option>
 						<option value="Kids">Kids</option>
+						<option value="Men">Men</option>
 					</select>
 				</div>
 				<div>
@@ -110,7 +114,7 @@ const Add = ({ token }) => {
 				</div>
 				<div>
 					<p className='mb-2 '>Product Price</p>
-					<input onChange={(e) => setPrice(e.target.value)} value={price} className='w-full px-3 py-2 sm:w-[120px]' placeholder='25' type="number" />
+					<input onChange={(e) => setPrice(e.target.value)} value={price} className='w-full px-3 py-2 sm:w-[120px]' placeholder='25' type="number" required />
 				</div>
 			</div>
 			<div>

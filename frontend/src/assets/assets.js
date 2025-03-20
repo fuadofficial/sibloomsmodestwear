@@ -78,10 +78,16 @@ import contact_img from './contact_img.png'
 import razorpay_logo from './razorpay_logo.png'
 import stripe_logo from './stripe_logo.png'
 import cross_icon from './cross_icon.png'
+import logomain from './logo.png'
+import name from './name.png'
+import insta from './insta.png'
 
 export const assets = {
     logo,
+    logomain,
+    name,
     hero_img,
+    insta,
     hero_img2,
     hero_img3,
     contact,
