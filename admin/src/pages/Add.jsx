@@ -13,11 +13,11 @@ const Add = ({ token }) => {
 
 	const [name, setName] = useState("")
 	const [description, setDescription] = useState("")
-	const [price, setPrice] = useState("")
 	const [category, setCategory] = useState("Men")
 	const [subCategory, setSubCategory] = useState("Topwear")
 	const [bestseller, setBestseller] = useState(false)
 	const [sizes, setSizes] = useState([])
+	const [sizePrices, setSizePrices] = useState({ S: "", M: "", L: "" })
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault()
@@ -25,15 +25,20 @@ const Add = ({ token }) => {
 			toast.error("Please select at least one size.");
 			return;
 		}
+		if (sizes.some(size => !sizePrices[size])) {
+			toast.error("Please enter prices for all selected sizes.");
+			return;
+		}
+
 		try {
 			const formData = new FormData()
 			formData.append("name", name)
 			formData.append("description", description)
-			formData.append("price", price)
 			formData.append("category", category)
 			formData.append("subCategory", subCategory)
 			formData.append("bestseller", bestseller)
 			formData.append("sizes", JSON.stringify(sizes))
+			formData.append("sizePrices", JSON.stringify(sizePrices))
 
 			image1 && formData.append("image1", image1)
 			image2 && formData.append("image2", image2)
@@ -54,7 +59,8 @@ const Add = ({ token }) => {
 				setImage2(null)
 				setImage3(null)
 				setImage4(null)
-				setPrice("")
+				setSizes([])
+				setSizePrices({ S: "", M: "", L: "" })
 			} else {
 				toast.error(response.data.message)
 			}
@@ -62,6 +68,18 @@ const Add = ({ token }) => {
 			console.log(error);
 			toast.error(error.message)
 		}
+	}
+
+	const handleSizeToggle = (size) => {
+		setSizes(prev =>
+			prev.includes(size)
+				? prev.filter(item => item !== size)
+				: [...prev, size]
+		)
+	}
+
+	const handleSizePriceChange = (size, value) => {
+		setSizePrices(prev => ({ ...prev, [size]: value }))
 	}
 
 	return (
@@ -112,29 +130,27 @@ const Add = ({ token }) => {
 						<option value="Winterwear">Winterwear</option>
 					</select>
 				</div>
-				<div>
-					<p className='mb-2 '>Product Price</p>
-					<input onChange={(e) => setPrice(e.target.value)} value={price} className='w-full px-3 py-2 sm:w-[120px]' placeholder='25' type="number" required />
-				</div>
 			</div>
 			<div>
-				<p className='mb-2'>Product Sizes</p>
+				<p className='mb-2'>Product Sizes & Prices</p>
 				<div className='flex gap-3'>
-					<div onClick={() => setSizes(prev => prev.includes("S") ? prev.filter(item => item !== "S") : [...prev, "S"])}>
-						<p className={` px-3 py-1 cursor-pointer ${sizes.includes("S") ? "bg-pink-100" : "bg-slate-200"}`}>S</p>
-					</div>
-					<div onClick={() => setSizes(prev => prev.includes("M") ? prev.filter(item => item !== "M") : [...prev, "M"])}>
-						<p className={` px-3 py-1 cursor-pointer ${sizes.includes("M") ? "bg-pink-100" : "bg-slate-200"}`}>M</p>
-					</div>
-					<div onClick={() => setSizes(prev => prev.includes("L") ? prev.filter(item => item !== "L") : [...prev, "L"])}  >
-						<p className={` px-3 py-1 cursor-pointer ${sizes.includes("L") ? "bg-pink-100" : "bg-slate-200"}`}>L</p>
-					</div>
-					<div onClick={() => setSizes(prev => prev.includes("XL") ? prev.filter(item => item !== "XL") : [...prev, "XL"])}  >
-						<p className={` px-3 py-1 cursor-pointer ${sizes.includes("XL") ? "bg-pink-100" : "bg-slate-200"}`}>XL</p>
-					</div>
-					<div onClick={() => setSizes(prev => prev.includes("XXL") ? prev.filter(item => item !== "XXL") : [...prev, "XXL"])}  >
-						<p className={` px-3 py-1 cursor-pointer ${sizes.includes("XXL") ? "bg-pink-100" : "bg-slate-200"}`}>XXL</p>
-					</div>
+					{["S", "M", "L"].map(size => (
+						<div key={size} className="flex flex-col items-center">
+							<div className='w-20 text-center' onClick={() => handleSizeToggle(size)}>
+								<p className={`px-3 py-1 cursor-pointer ${sizes.includes(size) ? "bg-pink-100" : "bg-slate-200"}`}>{size}</p>
+							</div>
+							{sizes.includes(size) && (
+								<input
+									type="number"
+									placeholder={`Price for ${size}`}
+									value={sizePrices[size]}
+									onChange={(e) => handleSizePriceChange(size, e.target.value)}
+									className="w-18 mt-2 px-2 py-1 border"
+									required
+								/>
+							)}
+						</div>
+					))}
 				</div>
 			</div>
 			<div className='flex gap-2 mt-2'>
