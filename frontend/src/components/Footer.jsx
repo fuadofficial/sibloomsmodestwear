@@ -29,9 +29,9 @@ const Footer = () => {
                             <img src={assets.insta} alt="Instagram" className="w-7 h-7" />
                             <i>Instagram</i>
                         </a>
-                        <a className='flex gap-3 mt-2' href="https://wa.me/8592863030?text=Hello%20there,%20I%20need%20help!" target="_blank" rel="noopener noreferrer">
-                            <img src={assets.whadsapp} alt="whadsapp" className="w-7 h-7" />
-                            <i>Whadsapp</i>
+                        <a className='flex gap-3 mt-4 text-center' href="https://wa.me/918592863030?text=Hello%20there,%20I%20need%20help!" target="_blank" rel="noopener noreferrer">
+                            <img src={assets.whadsapp} alt="whadsapp" className="w-9 h-9" />
+                            <i className='mt-1.5'>Whadsapp</i>
                         </a>
                     </ul>
                 </div>
