@@ -54,6 +54,7 @@ const List = ({ token }) => {
                <b className='text-center'>Action</b>
             </div>
             {/* ---------------Product List -------------- */}
+
             {
                list.map((item, index) => (
                   <div className='grid grid-cols-[1fr_3fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center gap-2 px-2 py-1 border text-sm' key={index}>
@@ -68,7 +69,9 @@ const List = ({ token }) => {
                      <p onClick={() => removeProduct(item._id)} className='text-right md:text-center cursor-pointer text-lg'>X</p>
                   </div>
                ))
+
             }
+
          </div>
       </>
    )

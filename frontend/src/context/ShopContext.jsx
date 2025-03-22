@@ -8,7 +8,7 @@ export const ShopContext = createContext();
 const ShopContextProvider = (props) => {
 
     const currency = '₹';
-    const delivery_fee = 60;
+    const delivery_fee = 70;
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     const [search, setSearch] = useState("")
@@ -20,7 +20,7 @@ const ShopContextProvider = (props) => {
     const navigate = useNavigate()
 
     const addToCart = async (itemId, size) => {
-        console.log(itemId, size);
+        navigate("/cart")
 
         if (!size) {
             toast.error("Select Product Size")
@@ -81,22 +81,27 @@ const ShopContextProvider = (props) => {
     }
 
     const getCartAmount = () => {
-        let totalAmount = 0
+        let totalAmount = 0;
         for (const items in cartItems) {
-            let itemInfo = products.find((product) => product._id === items)
+            const itemInfo = products.find((product) => product._id === items);
+            if (!itemInfo) continue; // Skip if product info is missing
+
             for (const item in cartItems[items]) {
                 try {
                     if (cartItems[items][item] > 0) {
-                        totalAmount += itemInfo.price * cartItems[items][item]
+                        // Ensure that size-based prices are considered if available
+                        const price = itemInfo.sizePrices?.[item] || itemInfo.price || 0;
+                        totalAmount += price * cartItems[items][item];
                     }
                 } catch (error) {
                     console.log(error);
-                    toast.error(error.message)
+                    toast.error(error.message);
                 }
             }
         }
-        return totalAmount
-    }
+        return totalAmount;
+    };
+
 
     const getProductsData = async () => {
         try {

@@ -18,11 +18,11 @@ const Product = () => {
             if (foundProduct) {
                 setProductData(foundProduct)
                 setImage(foundProduct.image[0])
-                
-                // Set default size to the largest (last in the array) and its price
-                const defaultSize = foundProduct.sizes[foundProduct.sizes.length - 1]
+
+                // Set default size to "S" if available, otherwise fallback to the first size
+                const defaultSize = foundProduct.sizes[0]
                 setSize(defaultSize)
-                setPrice(foundProduct.prices[defaultSize])
+                setPrice(foundProduct.sizePrices[defaultSize])
             }
         }
         fetchProductData()
@@ -30,7 +30,7 @@ const Product = () => {
 
     const handleSizeChange = (selectedSize) => {
         setSize(selectedSize)
-        setPrice(productData.prices[selectedSize]) // Update price based on size
+        setPrice(productData.sizePrices[selectedSize]) // Update price based on size
     }
 
     return productData ? (
@@ -41,12 +41,12 @@ const Product = () => {
                 <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
                     <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>
                         {productData.image.map((item, index) => (
-                            <img 
-                                onClick={() => setImage(item)} 
-                                src={item} 
-                                key={index} 
-                                className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer' 
-                                alt="" 
+                            <img
+                                onClick={() => setImage(item)}
+                                src={item}
+                                key={index}
+                                className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer'
+                                alt=""
                             />
                         ))}
                     </div>
@@ -71,9 +71,9 @@ const Product = () => {
                         <p>Select Size</p>
                         <div className='flex gap-2'>
                             {productData.sizes.map((item, index) => (
-                                <button 
-                                    onClick={() => handleSizeChange(item)} 
-                                    className={`border py-2 px-4 bg-gray-100 ${item === size ? "border-orange-500 " : ""}`} 
+                                <button
+                                    onClick={() => handleSizeChange(item)}
+                                    className={`border py-2 px-4 bg-gray-100 ${item === size ? "border-orange-500 " : ""}`}
                                     key={index}
                                 >
                                     {item}

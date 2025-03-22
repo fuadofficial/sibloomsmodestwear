@@ -3,8 +3,12 @@ import { assets } from '../assets/assets'
 import axios from 'axios'
 import { backendUrl } from '../App'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const Add = ({ token }) => {
+
+	const navigate = useNavigate()
+	const [loading, setLoading] = useState(false);
 
 	const [image1, setImage1] = useState(null)
 	const [image2, setImage2] = useState(null)
@@ -13,14 +17,14 @@ const Add = ({ token }) => {
 
 	const [name, setName] = useState("")
 	const [description, setDescription] = useState("")
-	const [category, setCategory] = useState("Men")
-	const [subCategory, setSubCategory] = useState("Topwear")
+	const [category, setCategory] = useState("Women")
 	const [bestseller, setBestseller] = useState(false)
 	const [sizes, setSizes] = useState([])
 	const [sizePrices, setSizePrices] = useState({ S: "", M: "", L: "" })
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault()
+		if (loading) return;
 		if (sizes.length === 0) {
 			toast.error("Please select at least one size.");
 			return;
@@ -29,13 +33,13 @@ const Add = ({ token }) => {
 			toast.error("Please enter prices for all selected sizes.");
 			return;
 		}
+		setLoading(true);
 
 		try {
 			const formData = new FormData()
 			formData.append("name", name)
 			formData.append("description", description)
 			formData.append("category", category)
-			formData.append("subCategory", subCategory)
 			formData.append("bestseller", bestseller)
 			formData.append("sizes", JSON.stringify(sizes))
 			formData.append("sizePrices", JSON.stringify(sizePrices))
@@ -61,12 +65,15 @@ const Add = ({ token }) => {
 				setImage4(null)
 				setSizes([])
 				setSizePrices({ S: "", M: "", L: "" })
+				navigate("/list");
 			} else {
 				toast.error(response.data.message)
 			}
 		} catch (error) {
 			console.log(error);
 			toast.error(error.message)
+		} finally {
+			setLoading(false); 
 		}
 	}
 
@@ -119,15 +126,6 @@ const Add = ({ token }) => {
 					<select onChange={(e) => setCategory(e.target.value)} className='w-full px-3 py-2'>
 						<option value="Women">Women</option>
 						<option value="Kids">Kids</option>
-						<option value="Men">Men</option>
-					</select>
-				</div>
-				<div>
-					<p className='mb-2'>Sub category</p>
-					<select onChange={(e) => setSubCategory(e.target.value)} className='w-full px-3 py-2' >
-						<option value="Topwear">Topwear</option>
-						<option value="Bottomwear">Bottomwear</option>
-						<option value="Winterwear">Winterwear</option>
 					</select>
 				</div>
 			</div>
@@ -157,7 +155,7 @@ const Add = ({ token }) => {
 				<input onChange={() => setBestseller(prev => !prev)} checked={bestseller} type="checkbox" id='bestseller' />
 				<label className='cursor-pointer' htmlFor="bestseller">Add to bestseller</label>
 			</div>
-			<button className='w-28 py-3 mt-4 bg-black text-white' type='submit'>ADD</button>
+			<button className='w-28 py-3 mt-4 bg-black text-white' type='submit'> {loading ? "ADDING..." : "ADD"}</button>
 		</form>
 	)
 }
