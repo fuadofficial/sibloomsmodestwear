@@ -81,6 +81,7 @@ import cross_icon from './cross_icon.png'
 import logomain from './logo.png'
 import name from './name.png'
 import insta from './insta.png'
+import whadsapp from './whadsapp.png'
 
 export const assets = {
     logo,
@@ -88,6 +89,7 @@ export const assets = {
     name,
     hero_img,
     insta,
+    whadsapp,
     hero_img2,
     hero_img3,
     contact,
