@@ -11,7 +11,6 @@ const List = ({ token }) => {
          const response = await axios.get(backendUrl + "/api/product/list")
          if (response.data.success) {
             console.log(response.data);
-
             setList(response.data.products);
          } else {
             toast.error(response.data.message)
@@ -23,6 +22,9 @@ const List = ({ token }) => {
    }
 
    const removeProduct = async (id) => {
+      const confirmDelete = window.confirm("Are you sure you want to remove this product?");
+      if (!confirmDelete) return; // Stop if user cancels
+
       try {
          const response = await axios.post(backendUrl + "/api/product/remove", { id }, { headers: { token } })
          if (response.data.success) {
@@ -56,8 +58,11 @@ const List = ({ token }) => {
             {/* ---------------Product List -------------- */}
 
             {
-               list.map((item, index) => (
-                  <div className='grid grid-cols-[1fr_3fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center gap-2 px-2 py-1 border text-sm' key={index}>
+               list.map((item) => (
+                  <div
+                     key={item._id}
+                     className='grid grid-cols-[1fr_3fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center gap-2 px-2 py-1 border text-sm'
+                  >
                      <img className='w-12' src={item.image[0]} alt="" />
                      <p>{item.name}</p>
                      <p>{item.category}</p>
@@ -66,15 +71,19 @@ const List = ({ token }) => {
                            .map(([size, price]) => `${size}: ${currency}${price}`)
                            .join(", ")}
                      </p>
-                     <p onClick={() => removeProduct(item._id)} className='text-right md:text-center cursor-pointer text-lg'>X</p>
+                     {/* Remove Product Button */}
+                     <button
+                        onClick={() => removeProduct(item._id)}
+                        className='text-right md:text-center cursor-pointer text-lg text-red-600 font-bold'
+                     >
+                        ✖
+                     </button>
                   </div>
                ))
-
             }
-
          </div>
       </>
    )
 }
 
-export default List
+export default List;
