@@ -2,7 +2,6 @@ import orderModel from "../models/orderModel.js"
 import userModel from "../models/userModel.js"
 import Stripe from 'stripe'
 import razorpay from 'razorpay'
-import { response } from "express"
 
 // global variables 
 const currency = "inr"

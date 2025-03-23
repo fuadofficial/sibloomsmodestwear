@@ -8,8 +8,7 @@ const Footer = () => {
                 <div>
                     <img className='mb-5 w-44' src={assets.name} alt="" />
                     <p className='w-full md:w-2/3 text-gray-600'>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum perferendis nulla beatae. Perferendis accusantium, minus doloremque saepe fugit cumque necessitatibus delectus laborum deserunt nisi vero illum adipisci tempora dignissimos ut!
-                    </p>
+                    Where tradition meets elegance. We offer high-quality Islamic prayer dresses designed for comfort and modesty. Enjoy secure shopping, fast delivery, and dedicated customer support. Stay updated with our latest collections and offers by following us on social media. Your satisfaction is our priority. Shop with confidence!                    </p>
                 </div>
                 <div>
                     <p className='text-xl font-medium mb-5'>COMPANY</p>
@@ -24,7 +23,7 @@ const Footer = () => {
                     <p className='text-xl font-medium mb-5'>GET IN TOUCH</p>
                     <ul className='flex flex-col gap-1 text-gray-600'>
                         <li>+91 8592863030</li>
-                        <li>siblooms@gamil.com</li>
+                        <a>sibloomsmodestwear@gamil.com</a>
                         <a className='flex gap-3 mt-2' href="https://www.instagram.com/siblooms_modestwear/?__pwa=1" target="_blank" rel="noopener noreferrer">
                             <img src={assets.insta} alt="Instagram" className="w-7 h-7" />
                             <i>Instagram</i>
@@ -38,7 +37,7 @@ const Footer = () => {
             </div>
             <div>
                 <hr />
-                <p className='py-5 text-sm text-center'>Copyright 2025@ siblooms.com -All Right Reserved.</p>
+                <p className='py-5 text-sm text-center'>Copyright 2025@ https://silbooms.vercel.app -All Right Reserved.</p>
             </div>
         </div>
     )
