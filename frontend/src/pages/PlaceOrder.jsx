@@ -30,31 +30,58 @@ const PlaceOrder = () => {
    }
 
    const initPay = (order) => {
+      if (!window.Razorpay) {
+         toast.error("Razorpay SDK not loaded. Please try again.");
+         return;
+      }
+
       const options = {
          key: import.meta.env.VITE_RAZORPAY_KEY_ID,
          amount: order.amount,
          currency: order.currency,
-         name: "Order Payment",
+         name: "Your Company Name",
          description: "Order Payment",
-         order_id: order.id,
-         receipt: order.receipt,
+         order_id: order.id, // Razorpay Order ID
+         method: "upi", // Enables UPI payments
+         prefill: {
+            email: formData.email,
+            contact: formData.phone,
+         },
+         theme: {
+            color: "#3399cc",
+         },
          handler: async (response) => {
-            console.log(response);
             try {
-               const { data } = await axios.post(backendUrl + "/api/order/verifyRazorpay", response, { headers: { token } })
+               const { data } = await axios.post(
+                  backendUrl + "/api/order/verifyRazorpay",
+                  response,
+                  { headers: { token } }
+               );
+
                if (data.success) {
-                  navigate("/orders")
-                  setCartItems({})
+                  toast.success("Payment successful!");
+                  setCartItems({});
+                  navigate("/orders");
+               } else {
+                  toast.error("Payment verification failed.");
                }
             } catch (error) {
-               console.log(error);
-               toast.error(error.message)
+               console.error("Verification Error:", error);
+               toast.error("Error verifying payment.");
             }
-         }
-      }
-      const rzp = new window.Razorpay(options)
-      rzp.open()
-   }
+         },
+      };
+
+      const rzp = new window.Razorpay(options);
+
+      rzp.on("payment.failed", function (response) {
+         toast.error("Payment failed. Please try again.");
+         console.error(response.error);
+      });
+
+      rzp.open();
+   };
+
 
    const onSubmitHandler = async (event) => {
       event.preventDefault()
