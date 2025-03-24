@@ -1,12 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { assets } from "../assets/assets.js"
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext.jsx'
 
 const Navbar = () => {
 
     const [visible, setVisible] = useState(false)
-    const { setShowSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext)
+    const [showSearchIcon, setShowSearchIcon] = useState(false)
+    const { setShowSearch, showSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext)
 
     const logout = () => {
         navigate("/login")
@@ -14,6 +15,15 @@ const Navbar = () => {
         setToken("")
         setCartItems({})
     }
+
+    const location = useLocation()
+    useEffect(() => {
+        if (location.pathname.includes('collection')) {
+            setShowSearchIcon(true)
+        } else {
+            setShowSearchIcon(false)
+        }
+    }, [location])
 
     return (
         <div className='flex items-center justify-between py-5 font-medium'>
@@ -39,7 +49,7 @@ const Navbar = () => {
                 </NavLink>
             </ul>
             <div className="flex items-center gap-6">
-                <img onClick={() => setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer' alt="" />
+                {showSearchIcon && <img onClick={() => setShowSearch(!showSearch)} src={assets.search_icon} className='w-5 cursor-pointer' alt="" />}
                 <div className="group relative">
                     <img onClick={() => token ? navigate("/orders") : navigate("/login")} src={assets.profile_icon} className='w-5 cursor-pointer' alt="" />
 

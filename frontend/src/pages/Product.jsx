@@ -13,6 +13,10 @@ const Product = () => {
     const [price, setPrice] = useState(0)
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const fetchProductData = () => {
             const foundProduct = products.find((item) => item._id === productId)
             if (foundProduct) {

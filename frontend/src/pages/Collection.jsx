@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import Title from '../components/Title'
 import ProductItem from '../components/ProductItem'
+import { assets } from '../assets/assets'
 
 const Collection = () => {
     const { products, search, showSearch } = useContext(ShopContext)
@@ -73,19 +74,23 @@ const Collection = () => {
             {/* Filter Options */}
             <div className='min-w-60'>
                 <p onClick={() => setShowFilter(!showFilter)} className='my-2 text-xl flex items-center cursor-pointer gap-2'>FILTERS
+                    <img className={`w-3 ${showFilter&& 'rotate-90'}`} src={assets.dropdown_icon} alt="" />
                 </p>
                 {/* category Filter */}
-                <div className={`border border-gray-300 pl-5 py-3 mt-6${showFilter ? "" : "hidden"}`}>
-                    <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
-                    <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
-                        <p className='flex gap-2'>
-                            <input onChange={toggleCategory} className='w-3' type="checkbox" value={'Women'} />Women
-                        </p>
-                        <p className='flex gap-2'>
-                            <input onChange={toggleCategory} className='w-3' type="checkbox" value={'Kids'} />Kids
-                        </p>
+                {
+                    showFilter &&
+                    <div className={`border border-gray-300 pl-5 py-3 mt-6${showFilter ? "" : "hidden"}`}>
+                        <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
+                        <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
+                            <p className='flex gap-2'>
+                                <input onChange={toggleCategory} className='w-3' type="checkbox" value={'Women'} checked={category.includes("Women")} />Women
+                            </p>
+                            <p className='flex gap-2'>
+                                <input onChange={toggleCategory} className='w-3' type="checkbox" value={'Kids'} checked={category.includes("Kids")} />Kids
+                            </p>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             {/* Right side */}
             <div className='flex-1'>
