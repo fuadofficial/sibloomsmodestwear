@@ -8,24 +8,27 @@ const Cart = () => {
    const { products, currency, cartItems, updateQuantity, navigate } = useContext(ShopContext);
    const [cartData, setCartData] = useState([]);
 
+   // Precompute product lookup dictionary for faster access
+   const productMap = products.reduce((acc, product) => {
+      acc[product._id] = product;
+      return acc;
+   }, {});
+
    useEffect(() => {
       window.scrollTo(0, 0);
    }, []);
 
    useEffect(() => {
       if (products.length > 0) {
-         const tempData = [];
-         for (const items in cartItems) {
-            for (const item in cartItems[items]) {
-               if (cartItems[items][item] > 0) {
-                  tempData.push({
-                     _id: items,
-                     size: item,
-                     quantity: cartItems[items][item],
-                  });
-               }
-            }
-         }
+         const tempData = Object.entries(cartItems).flatMap(([productId, sizes]) =>
+            Object.entries(sizes)
+               .filter(([_, quantity]) => quantity > 0)
+               .map(([size, quantity]) => ({
+                  _id: productId,
+                  size,
+                  quantity,
+               }))
+         );
          setCartData(tempData);
       }
    }, [cartItems, products]);
@@ -48,11 +51,8 @@ const Cart = () => {
                </div>
             ) : (
                cartData.map((item, index) => {
-                  const productData = products.find((product) => product._id === item._id);
-
-                  if (!productData) {
-                     return null;
-                  }
+                  const productData = productMap[item._id];
+                  if (!productData) return null;
 
                   return (
                      <div
@@ -74,12 +74,11 @@ const Cart = () => {
                            </div>
                         </div>
                         <input
-                           onChange={(e) =>
-                              e.target.value === '' || e.target.value === '0'
-                                 ? null
-                                 : updateQuantity(item._id, item.size, Number(e.target.value))
-                           }
-                           className='border max-w-10 sm:max-w-20 px-l sm:px-2 py-1'
+                           onChange={(e) => {
+                              const value = Number(e.target.value);
+                              if (value > 0) updateQuantity(item._id, item.size, value);
+                           }}
+                           className='border max-w-10 sm:max-w-20 px-2 py-1'
                            type='number'
                            min={1}
                            defaultValue={item.quantity}
