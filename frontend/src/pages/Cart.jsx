@@ -9,6 +9,10 @@ const Cart = () => {
    const [cartData, setCartData] = useState([]);
 
    useEffect(() => {
+      window.scrollTo(0, 0);
+   }, []);
+
+   useEffect(() => {
       if (products.length > 0) {
          const tempData = [];
          for (const items in cartItems) {
@@ -47,7 +51,7 @@ const Cart = () => {
                   const productData = products.find((product) => product._id === item._id);
 
                   if (!productData) {
-                     return null; // Skip rendering if product is not found
+                     return null;
                   }
 
                   return (

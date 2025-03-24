@@ -31,6 +31,13 @@ const PlaceOrder = () => {
 
    const onSubmitHandler = async (event) => {
       event.preventDefault()
+
+      if (!token) {
+         toast.error("Please login");
+         navigate("/login");
+         return;
+      }
+
       try {
          let orderItems = []
          for (const items in cartItems) {
@@ -46,9 +53,9 @@ const PlaceOrder = () => {
             }
          }
          let orderData = {
-            address: formData,
             items: orderItems,
-            amount: getCartAmount() + delivery_fee
+            amount: getCartAmount() + delivery_fee,
+            address: formData
          }
 
          switch (method) {

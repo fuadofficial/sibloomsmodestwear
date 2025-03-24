@@ -7,6 +7,10 @@ const Orders = () => {
    const { backendUrl, token, currency, navigate } = useContext(ShopContext)
    const [orderData, setOrderData] = useState([])
 
+   useEffect(() => {
+      window.scrollTo(0, 0);
+   }, []);
+
    const loadOrderData = async () => {
       try {
          if (!token) return;
@@ -22,7 +26,7 @@ const Orders = () => {
                      payment: order.payment,
                      paymentMethod: order.paymentMethod,
                      date: order.date,
-                     price: item.sizePrices?.[item.size] || "N/A" // Fix for missing price
+                     price: item.sizePrices?.[item.size] || "N/A"
                   })
                })
             })
