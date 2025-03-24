@@ -29,6 +29,60 @@ const PlaceOrder = () => {
       setFormData(data => ({ ...data, [name]: value }))
    }
 
+   const initPay = (order) => {
+      if (!window.Razorpay) {
+         toast.error("Razorpay SDK not loaded. Please try again.");
+         return;
+      }
+
+      const options = {
+         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+         amount: order.amount,
+         currency: order.currency,
+         name: "Your Company Name",
+         description: "Order Payment",
+         order_id: order.id, // Razorpay Order ID
+         method: "upi", // Enables UPI payments
+         prefill: {
+            email: formData.email,
+            contact: formData.phone,
+         },
+         theme: {
+            color: "#3399cc",
+         },
+         handler: async (response) => {
+            try {
+               const { data } = await axios.post(
+                  backendUrl + "/api/order/verifyRazorpay",
+                  response,
+                  { headers: { token } }
+               );
+
+               if (data.success) {
+                  toast.success("Payment successful!");
+                  setCartItems({});
+                  navigate("/orders");
+               } else {
+                  toast.error("Payment verification failed.");
+               }
+            } catch (error) {
+               console.error("Verification Error:", error);
+               toast.error("Error verifying payment.");
+            }
+         },
+      };
+
+      const rzp = new window.Razorpay(options);
+
+      rzp.on("payment.failed", function (response) {
+         toast.error("Payment failed. Please try again.");
+         console.error(response.error);
+      });
+
+      rzp.open();
+   };
+
+
    const onSubmitHandler = async (event) => {
       event.preventDefault()
 
@@ -59,6 +113,7 @@ const PlaceOrder = () => {
          }
 
          switch (method) {
+            // API Calls for COD 
             case 'cod':
                const response = await axios.post(backendUrl + "/api/order/place", orderData, { headers: { token } })
                if (response.data.success) {
@@ -83,15 +138,7 @@ const PlaceOrder = () => {
                   initPay(responseRazorpay.data.order);
                }
                break
-            case "googlepay":
-               const responseGooglePay = await axios.post(backendUrl + "/api/order/googlepay", orderData, { headers: { token } })
-               if (responseGooglePay.data.success) {
-                  const { payment_url } = responseGooglePay.data
-                  window.location.replace(payment_url)
-               } else {
-                  toast.error(responseGooglePay.data.message)
-               }
-               break
+
             default:
                break
          }
@@ -132,15 +179,10 @@ const PlaceOrder = () => {
                <CartTotal />
             </div>
             <div className='mt-12'>
-               <Title text1={'PAYMENT'} text2={'METHOD'} />
-               <div>
-                  <p>
-                     Cash on delivery
-                     <br />
-                     Pay with cash upon delivery.
-                  </p>
-               </div>
-               {/* <div className='flex gap-3 flex-col lg:flex-row'>
+               <Title text1={"PAYMENT"} text2={"METHOD"} />
+
+               {/* ---------------Payment method selection--------------- */}
+               <div className='flex gap-3 flex-col lg:flex-row'>
                   <div onClick={() => setMethod("stripe")} className='flex items-center gap-3 border cursor-pointer p-2 px-3'>
                      <p className={`min-w-3.5 h-3.5 border rounded-full ${method === "stripe" ? "bg-green-400" : ""}`}></p>
                      <img className='h-5 mx-4 ' src={assets.stripe_logo} alt="" />
@@ -149,15 +191,10 @@ const PlaceOrder = () => {
                      <p className={`min-w-3.5 h-3.5 border rounded-full ${method === "razorpay" ? "bg-green-400" : ""}`}></p>
                      <img className='h-5 mx-4 ' src={assets.razorpay_logo} alt="" />
                   </div>
-                  <div onClick={() => setMethod("googlepay")} className='flex items-center gap-3 border cursor-pointer p-2 px-3'>
-                     <p className={`min-w-3.5 h-3.5 border rounded-full ${method === "googlepay" ? "bg-green-400" : ""}`}></p>
-                     <img className='h-5 mx-4 ' src={assets.googlepay_logo} alt="Google Pay" />
-                  </div>
                   <div onClick={() => setMethod("cod")} className='flex items-center gap-3 border cursor-pointer p-2 px-3'>
                      <p className={`min-w-3.5 h-3.5 border rounded-full ${method === "cod" ? "bg-green-400" : ""}`}></p>
-                     <p className='text-gray-500 text-sm font-medium mx-4'>CASH ON DELIVERY</p>
-                  </div>
-               </div> */}
+                     <p className='text-gray-500 text-sm font-medium mx-4'>CASH ON DELIVERY</p>            </div>
+               </div>
             </div>
             <div className='w-full text-end mt-8'>
                <button type='submit' className='bg-black text-white px-16 py-3 text-sm'>PLACE ORDER</button>
