@@ -43,17 +43,21 @@ const Product = () => {
             <div className='flex gap-12 sm:gap-12 flex-col sm:flex-row'>
                 {/* Product Images */}
                 <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
+                    {/* Thumbnail Images Section */}
                     <div className='flex gap-0.5 sm:flex-col flex-nowrap overflow-x-auto sm:overflow-hidden justify-start sm:justify-normal sm:w-[18.7%] w-full'>
                         {productData.image.map((item, index) => (
                             <img
                                 onClick={() => setImage(item)}
                                 src={item}
                                 key={index}
-                                className='w-[25%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer'
+                                className={`w-[25%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer rounded-md 
+                                 ${image === item ? 'border-2 border-blue-300' : 'border border-gray-300'}`}
                                 alt=""
                             />
                         ))}
                     </div>
+
+                    {/* Main Image Section */}
                     <div className='w-full sm:w-[80%]'>
                         <img className='w-full h-auto' src={image} alt="" />
                     </div>
