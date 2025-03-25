@@ -22,7 +22,7 @@ const ProductItem = ({ id, image, name, sizePrices }) => {
             </div>
             <p className='pt-3 pb-1 text-sm'>{name}</p>
             <p className='text-sm font-medium'>
-                {firstPrice !== null ? `${currency}${Object.values(sizePrices)[0]}` : "Price not available"}
+                {firstPrice !== null && `${currency}${Object.values(sizePrices)[2]}`}
             </p>
         </Link>
     )
