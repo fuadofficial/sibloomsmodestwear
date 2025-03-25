@@ -72,18 +72,18 @@ const Navbar = () => {
             </div>
 
             {/*Sidebar menu for small screen*/}
-            <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? 'w-full' : "w-0"}`}>
-                <div className='flex flex-col text-gray-600 '>
+            <div className={`fixed top-0 right-0 bottom-0 bg-white transition-all ${visible ? 'w-full max-h-screen overflow-y-auto' : "w-0 max-h-screen"}`}>
+            <div className='flex flex-col text-gray-600 '>
                     <div onClick={() => setVisible(false)} className='flex items-center gap-4 p-3 cursor-pointer'>
                         <img className='h-4 rotate-180' src={assets.dropdown_icon} alt="" />
                         <p>Back</p>
                     </div>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/'>HOME</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/collection'>COLLECTION</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/cart'>CART</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/orders'>ORDERS</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/about'>ABOUT</NavLink>
-                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/contact'>CONTACT</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border-b' to='/'>HOME</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border-b' to='/collection'>COLLECTION</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border-b' to='/cart'>CART</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border-b' to='/orders'>ORDERS</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border-b' to='/about'>ABOUT</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border-b' to='/contact'>CONTACT</NavLink>
                     <NavLink
                         onClick={() => {
                             setVisible(false);
@@ -91,7 +91,7 @@ const Navbar = () => {
                                 logout(); // Call logout function when token exists (LOGOUT state)
                             }
                         }}
-                        className='py-2 pl-6 border'
+                        className='py-2 pl-6 border-b'
                         to='/login' // Redirect to home after logout, login page otherwise
                     >
                         {token ? "LOGOUT" : "LOGIN"}
