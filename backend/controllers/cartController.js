@@ -2,7 +2,7 @@ import userModel from "../models/userModel.js"
 
 // add product to user cart
 const addToCart = async (req, res) => {
-    try {        
+    try {
         const { userId, itemId, size } = req.body
         const userData = await userModel.findById(userId)
         let cartData = await userData.cartData
@@ -44,6 +44,26 @@ const updateCart = async (req, res) => {
     }
 }
 
+// delete products from user cart
+const deleteCart = async (req, res) => {
+    try {
+        const { userId } = req.body;
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        await userModel.findByIdAndUpdate(userId, { cartData: {} });
+
+        res.json({ success: true, message: "Cart cleared successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
+
 // get user cart data
 const getUserCart = async (req, res) => {
     try {
@@ -58,4 +78,4 @@ const getUserCart = async (req, res) => {
     }
 }
 
-export { addToCart, updateCart, getUserCart }
+export { addToCart, updateCart, getUserCart, deleteCart }

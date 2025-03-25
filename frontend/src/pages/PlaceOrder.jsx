@@ -4,7 +4,6 @@ import CartTotal from '../components/CartTotal'
 import { ShopContext } from '../context/ShopContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import { assets } from '../assets/assets'
 
 const PlaceOrder = () => {
 
@@ -106,7 +105,7 @@ const PlaceOrder = () => {
                }
             }
          }
-         
+
          let orderData = {
             items: orderItems,
             amount: getCartAmount() + delivery_fee,
@@ -116,14 +115,30 @@ const PlaceOrder = () => {
          switch (method) {
             // API Calls for COD 
             case 'cod':
-               const response = await axios.post(backendUrl + "/api/order/place", orderData, { headers: { token } })
-               if (response.data.success) {
-                  setCartItems({})
-                  navigate("/orders")
-               } else {
-                  toast.error(response.data.message)
+               try {
+                  const orderResponse = await axios.post(backendUrl + "/api/order/place", orderData, { headers: { token } });
+
+                  if (orderResponse.data.success) {
+                     console.log(orderData);
+
+                     // Call the delete cart API
+                     const deleteResponse = await axios.post(backendUrl + "/api/cart/delete", {}, { headers: { token } });
+
+                     if (deleteResponse.data.success) {
+                        setCartItems({});
+                        navigate("/orders");
+                     } else {
+                        toast.error(deleteResponse.data.message);
+                     }
+                  } else {
+                     toast.error(orderResponse.data.message);
+                  }
+               } catch (error) {
+                  console.error("Error:", error);
+                  toast.error("Something went wrong");
                }
-               break
+               break;
+
             case "stripe":
                const responseStripe = await axios.post(backendUrl + "/api/order/stripe", orderData, { headers: { token } })
                if (responseStripe.data.success) {
