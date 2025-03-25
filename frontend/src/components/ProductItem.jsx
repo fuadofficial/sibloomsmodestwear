@@ -8,8 +8,15 @@ const ProductItem = ({ id, image, name, sizePrices }) => {
     // Extract the first available price from sizePrices
     const firstPrice = sizePrices ? Object.values(sizePrices)[0] : null
 
+    const handleClick = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
     return (
-        <Link className='text-gray-700 cursor-pointer' to={`/product/${id}`}>
+        <Link onClick={handleClick} className='text-gray-700 cursor-pointer' to={`/product/${id}`}>
             <div className='over-flow-hidden'>
                 <img className='hover:scale-110 transition ease-in-out' src={image[0]} alt={name} />
             </div>
