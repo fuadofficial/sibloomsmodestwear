@@ -1,14 +1,40 @@
 # Silbooms – Islamic Women's Prayer Dress & Musallah E-commerce
 
+
+
+Live :
+
+
+
+
 [Live Website](https://silbooms.vercel.app/) | [Admin Panel](https://silbooms-ecommerce-admin.vercel.app/)
+
+
+
+
+
 
 ![Image](https://github.com/user-attachments/assets/fec3d92b-bc9f-48f5-a9b4-22d1c6ef62a5)
 
+
+
+
 ![Image](https://github.com/user-attachments/assets/86acc082-47cf-4dc8-9f15-6d5f11eafe61)
+
+
+
 
 ![Image](https://github.com/user-attachments/assets/5345dce4-4638-4eb8-97f6-dd92b03bb40e)
 
+
+
+
 ![Image](https://github.com/user-attachments/assets/7d550421-4a2c-4435-9893-801e9e19c1e0)  
+
+
+
+
+
 
 ## About the Project
 
