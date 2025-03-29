@@ -27,7 +27,11 @@ const LatestCollection = () => {
                     ))
                 }
             </div>
-            {/* <Link to={'/collection'} className='bg-black text-white py-2 px-5 font-semibold hover:bg-gray-800 cursor-pointer'>More collections</Link> */}
+            <div className="flex items-center justify-center mt-10">
+                <Link to={'/collection'} className='bg-black w-[70%] tracking-wider rounded-md text-center text-white py-3 px-10 hover:bg-gray-800 cursor-pointer'>
+                    More collections
+                </Link>
+            </div>
         </div>
     )
 }

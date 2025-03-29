@@ -4,6 +4,7 @@ import Title from '../components/Title'
 import ProductItem from '../components/ProductItem'
 import { assets } from '../assets/assets'
 
+
 const Collection = () => {
     const { products, search, showSearch } = useContext(ShopContext)
 
