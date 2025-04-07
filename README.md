@@ -2,13 +2,7 @@
 
 
 
-** Live Website**: https://siblooms.vercel.app
-
-
-
-
-[Live Website](https://silbooms.vercel.app/) | [Admin Panel](https://silbooms-ecommerce-admin.vercel.app/)
-
+**Live Website**: https://siblooms.vercel.app
 
 
 
